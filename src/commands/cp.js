@@ -1,5 +1,4 @@
 import fs from 'fs';
-import fsP from 'fs/promises';
 import path from 'path';
 
 const cmd_cp = async (ctx, args) => {
