@@ -1,9 +1,11 @@
 import os from 'os';
 import path from 'path';
+import * as readline from 'readline/promises';
 
 import { cmd_exit } from "./commands/exit.js";
 import { cmd_up } from "./commands/up.js";
 import { cmd_cd } from "./commands/cd.js";
+import { cmd_ls } from "./commands/ls.js";
 
 const sigint = process.platform === 'win32' ? 'SIGBREAK' : 'SIGINT';
 
@@ -13,12 +15,12 @@ const commands = {
     '.exit': { 'cmd': 'cmd_exit', 'min_args': 0 },
     'up': { 'cmd': 'cmd_up', 'min_args': 0 },
     'cd': { 'cmd': 'cmd_cd', 'min_args': 1 },
+    'ls': { 'cmd': 'cmd_ls', 'min_args': 0 },
 };
 
 
 const printPromt = (ctx) => {
-    process.stdout.write(`You are currently in ${ctx['cwd']}\n`);
-    process.stdout.write(`Input a command $ `);
+    process.stdout.write(`\x1b[37mYou are currently in \x1b[1m${ctx['cwd']}\x1b[0m\n`);
 }
 
 
@@ -96,8 +98,12 @@ const parseCommand = (command) => {
     return args;
 }
 
+const execCmd = async (cmd, context, args) => {
+    const cmdFunc = eval(cmd);
+    await cmdFunc(context, args);
+}
 
-const processUserInput = (chunk) => {
+const processUserInput = async (chunk) => {
     const cmdString = chunk.toString().replace(/[\r\n]+$/g, '').replace(/^\s+/, '').replace(/\s+$/, '');
     if (cmdString.length === 0) return;
     try {
@@ -111,9 +117,8 @@ const processUserInput = (chunk) => {
 
         if (commands[cmd]['min_args'] > args.length - 1) throw new Error();
 
-        eval(commands[cmd]['cmd'])(context, args.slice(1));
+        await execCmd(commands[cmd]['cmd'], context, args.slice(1));
     } catch (error) {
-        // console.log(error);
         console.log(invInputStr);
     }
     printPromt(context);
@@ -124,14 +129,24 @@ process.chdir(homedir);
 console.log(`Welcome to the File Manager, ${username}!`);
 printPromt(context);
 
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
 process.on('exit', (code) => {
-    console.log(`Thank you for using File Manager, ${username}, goodbye!`);
+    console.log(`\nThank you for using File Manager, ${username}, goodbye!`);
+    rl.close();
 });
 
-process.on('SIGINT', () => {
-    console.log('');
-    process.exit(0);
-});
+// process.on('SIGINT', () => {
+//     console.log('\n');
+//     process.exit(0);
+// });
 
-process.stdin.on('data', processUserInput);
+
+do {
+    const answer = await rl.question('Input a command > ');
+    await processUserInput(answer);
+} while (1);
 
