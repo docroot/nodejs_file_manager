@@ -13,6 +13,7 @@ import { cmd_cp } from "./commands/cp.js";
 import { cmd_rm } from "./commands/rm.js";
 import { cmd_mv } from "./commands/mv.js";
 import { cmd_os } from "./commands/os.js";
+import { cmd_hash } from "./commands/hash.js";
 
 
 const sigint = process.platform === 'win32' ? 'SIGBREAK' : 'SIGINT';
@@ -31,6 +32,7 @@ const commands = {
     'cp': { 'cmd': 'cmd_cp', 'min_args': 2 },
     'mv': { 'cmd': 'cmd_mv', 'min_args': 1 },
     'os': { 'cmd': 'cmd_os', 'min_args': 1 },
+    'hash': { 'cmd': 'cmd_hash', 'min_args': 1 },
 };
 
 
