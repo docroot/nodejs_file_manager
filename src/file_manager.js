@@ -8,6 +8,8 @@ import { cmd_cd } from "./commands/cd.js";
 import { cmd_ls } from "./commands/ls.js";
 import { cmd_cat } from "./commands/cat.js";
 import { cmd_add } from "./commands/add.js";
+import { cmd_rn } from "./commands/rn.js";
+
 
 const sigint = process.platform === 'win32' ? 'SIGBREAK' : 'SIGINT';
 
@@ -21,6 +23,7 @@ const commands = {
     'ls': { 'cmd': 'cmd_ls', 'min_args': 0 },
     'cat': { 'cmd': 'cmd_cat', 'min_args': 1 },
     'add': { 'cmd': 'cmd_add', 'min_args': 1 },
+    'rn': { 'cmd': 'cmd_rn', 'min_args': 2 },
 };
 
 
