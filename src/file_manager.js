@@ -11,6 +11,7 @@ import { cmd_add } from "./commands/add.js";
 import { cmd_rn } from "./commands/rn.js";
 import { cmd_cp } from "./commands/cp.js";
 import { cmd_rm } from "./commands/rm.js";
+import { cmd_mv } from "./commands/mv.js";
 
 
 const sigint = process.platform === 'win32' ? 'SIGBREAK' : 'SIGINT';
@@ -27,7 +28,7 @@ const commands = {
     'add': { 'cmd': 'cmd_add', 'min_args': 1 },
     'rn': { 'cmd': 'cmd_rn', 'min_args': 2 },
     'cp': { 'cmd': 'cmd_cp', 'min_args': 2 },
-    'rm': { 'cmd': 'cmd_rm', 'min_args': 1 },
+    'mv': { 'cmd': 'cmd_mv', 'min_args': 1 },
 };
 
 
