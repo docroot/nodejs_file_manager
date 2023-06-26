@@ -14,6 +14,7 @@ import { cmd_rm } from "./commands/rm.js";
 import { cmd_mv } from "./commands/mv.js";
 import { cmd_os } from "./commands/os.js";
 import { cmd_hash } from "./commands/hash.js";
+import { cmd_compress, cmd_decompress } from "./commands/arch.js";
 
 
 const sigint = process.platform === 'win32' ? 'SIGBREAK' : 'SIGINT';
@@ -30,9 +31,12 @@ const commands = {
     'add': { 'cmd': 'cmd_add', 'min_args': 1 },
     'rn': { 'cmd': 'cmd_rn', 'min_args': 2 },
     'cp': { 'cmd': 'cmd_cp', 'min_args': 2 },
+    'rm': { 'cmd': 'cmd_rm', 'min_args': 1 },
     'mv': { 'cmd': 'cmd_mv', 'min_args': 1 },
     'os': { 'cmd': 'cmd_os', 'min_args': 1 },
     'hash': { 'cmd': 'cmd_hash', 'min_args': 1 },
+    'compress': { 'cmd': 'cmd_compress', 'min_args': 1 },
+    'decompress': { 'cmd': 'cmd_decompress', 'min_args': 1 },
 };
 
 
