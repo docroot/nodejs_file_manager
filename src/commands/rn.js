@@ -12,7 +12,6 @@ const cmd_rn = async (ctx, args) => {
             filePaths.push(path.join(ctx.cwd, file));
         }
     });
-    console.log(filePaths);
     await fs.access(filePaths[1], fs.constants.F_OK)
         .then(() => {
             throw new Error();
