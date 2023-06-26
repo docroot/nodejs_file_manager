@@ -3,6 +3,7 @@ import path from 'path';
 
 import { cmd_exit } from "./commands/exit.js";
 import { cmd_up } from "./commands/up.js";
+import { cmd_cd } from "./commands/cd.js";
 
 const sigint = process.platform === 'win32' ? 'SIGBREAK' : 'SIGINT';
 
@@ -11,6 +12,7 @@ const invInputStr = 'Invalid input';
 const commands = {
     '.exit': { 'cmd': 'cmd_exit', 'min_args': 0 },
     'up': { 'cmd': 'cmd_up', 'min_args': 0 },
+    'cd': { 'cmd': 'cmd_cd', 'min_args': 1 },
 };
 
 
@@ -35,8 +37,8 @@ const getUsernameFromArgs = () => {
 const homedir = os.homedir();
 const rootDir = path.parse(process.cwd()).root;
 const pathDelimiter = path.delimiter;
+const dirSeparator = path.sep;
 const username = getUsernameFromArgs();
-
 
 const context = {
     'cwd': homedir,
@@ -44,6 +46,7 @@ const context = {
     'username': username,
     'rootDir': rootDir,
     'pathDelimiter': pathDelimiter,
+    'dirSeparator': dirSeparator,
 }
 
 

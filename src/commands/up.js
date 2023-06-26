@@ -2,9 +2,9 @@ import path from 'path';
 
 const cmd_up = (ctx, args) => {
     if (ctx.cwd !== ctx.rootDir) {
-        const upDir = path.join(ctx.cwd, '..');
+        const upDir = path.dirname(ctx.cwd);
         process.chdir(upDir);
-        ctx['cwd'] = process.cwd();
+        ctx.cwd = process.cwd();
     }
 }
 
