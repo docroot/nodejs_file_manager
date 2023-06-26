@@ -9,6 +9,8 @@ import { cmd_ls } from "./commands/ls.js";
 import { cmd_cat } from "./commands/cat.js";
 import { cmd_add } from "./commands/add.js";
 import { cmd_rn } from "./commands/rn.js";
+import { cmd_cp } from "./commands/cp.js";
+import { cmd_rm } from "./commands/rm.js";
 
 
 const sigint = process.platform === 'win32' ? 'SIGBREAK' : 'SIGINT';
@@ -24,6 +26,8 @@ const commands = {
     'cat': { 'cmd': 'cmd_cat', 'min_args': 1 },
     'add': { 'cmd': 'cmd_add', 'min_args': 1 },
     'rn': { 'cmd': 'cmd_rn', 'min_args': 2 },
+    'cp': { 'cmd': 'cmd_cp', 'min_args': 2 },
+    'rm': { 'cmd': 'cmd_rm', 'min_args': 1 },
 };
 
 
@@ -128,6 +132,7 @@ const processUserInput = async (chunk) => {
         try {
             await execCmd(commands[cmd]['cmd'], context, args.slice(1));
         } catch (error) {
+            // console.log(error);
             console.log(operationFailed);
         }
     } catch (error) {
