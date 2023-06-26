@@ -1,21 +1,24 @@
 import os from 'os';
 import path from 'path';
-import * as readline from 'readline/promises';
+import readline from 'readline/promises';
 
 import { cmd_exit } from "./commands/exit.js";
 import { cmd_up } from "./commands/up.js";
 import { cmd_cd } from "./commands/cd.js";
 import { cmd_ls } from "./commands/ls.js";
+import { cmd_cat } from "./commands/cat.js";
 
 const sigint = process.platform === 'win32' ? 'SIGBREAK' : 'SIGINT';
 
-const invInputStr = 'Invalid input';
+const invInputStr = '\x1b[1m\x1b[33mInvalid input\x1b[0m';
+const operationFailed = '\x1b[1m\x1b[31mOperation failed\x1b[0m';
 
 const commands = {
     '.exit': { 'cmd': 'cmd_exit', 'min_args': 0 },
     'up': { 'cmd': 'cmd_up', 'min_args': 0 },
     'cd': { 'cmd': 'cmd_cd', 'min_args': 1 },
     'ls': { 'cmd': 'cmd_ls', 'min_args': 0 },
+    'cat': { 'cmd': 'cmd_cat', 'min_args': 1 },
 };
 
 
@@ -117,7 +120,11 @@ const processUserInput = async (chunk) => {
 
         if (commands[cmd]['min_args'] > args.length - 1) throw new Error();
 
-        await execCmd(commands[cmd]['cmd'], context, args.slice(1));
+        try {
+            await execCmd(commands[cmd]['cmd'], context, args.slice(1));
+        } catch (error) {
+            console.log(operationFailed);
+        }
     } catch (error) {
         console.log(invInputStr);
     }
